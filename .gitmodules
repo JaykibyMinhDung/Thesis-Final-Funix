@@ -1,0 +1,6 @@
+[submodule "backend-clone"]
+	path = backend-clone
+	url = https://github.com/JaykibyMinhDung/Thesis-Funix-Server.git
+[submodule "frontend-clone"]
+	path = frontend-clone
+	url = https://github.com/JaykibyMinhDung/Thesis-Funix-FrontEnd.git

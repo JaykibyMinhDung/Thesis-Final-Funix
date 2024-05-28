@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from "react";
-import Navigator from "../components/dashbroad/Navigator";
-import Table from "../components/table/Table";
-import { Managers } from "../apis/Managers";
 import { useNavigate } from "react-router-dom";
+import Navigator from "../components/dashbroad/Navigator";
+import { Managers } from "../apis/Managers";
+import Table from "../components/table/Table";
 
-const RoomsList = () => {
-  const [dataRooms, setdataRooms] = useState([]);
+const UserList = () => {
+  const [dataUser, setdataUser] = useState([]);
   const navigate = useNavigate();
   const styleTable: string = "2rem";
-  const navigationNewRoomHandle = () => {
-    return navigate("/new_room");
+  const navigationUpdatedHandle = () => {
+    return navigate("/new_hotel");
   };
   const titleHead = [
     "ID",
-    "Title",
-    "Description",
-    "Price",
-    "Max People",
-    "Action",
-    "Edit",
+    "Name",
+    "Email",
+    "Phone",
+    "Role",
+    "StartAt",
+    "Deleted",
+    "Updated",
   ];
   useEffect(() => {
     Managers()
-      .getRoomsList()
-      .then((res) => setdataRooms(res.ListRoom))
+      .userList()
+      .then((res) => setdataUser(res.user))
       .catch((err) => console.error(err));
-  }, []); // reload mutiple time
+  }, []);
 
   return (
     <>
@@ -33,11 +34,11 @@ const RoomsList = () => {
       <main className="main__dashbroad">
         <article>
           <div className="headerHotel__list">
-            <h2 style={{ color: "rgb(141, 141, 141)" }}>Rooms List</h2>
+            <h2 style={{ color: "rgb(141, 141, 141)" }}>User List</h2>
             <button
-              id="btn-newRoom"
+              id="btn-newHotel"
               style={{ padding: "5px" }}
-              onClick={navigationNewRoomHandle}
+              onClick={navigationUpdatedHandle}
             >
               Add New
             </button>
@@ -45,15 +46,15 @@ const RoomsList = () => {
         </article>
         <Table
           style={styleTable}
-          products={dataRooms}
+          products={dataUser}
           titleHead={titleHead}
-          pageTitle={"rooms List"}
+          pageTitle={"User List"}
+          // deletedHotelAPI={Managers().deletedhotelsList}
           deletedRoomAPI={Managers().deletedroomsList}
-          deletedHotelAPI={Managers().deletedProduct}
         />
       </main>
     </>
   );
 };
 
-export default RoomsList;
+export default UserList;

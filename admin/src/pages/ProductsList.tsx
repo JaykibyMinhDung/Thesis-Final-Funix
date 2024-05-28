@@ -4,7 +4,7 @@ import Navigator from "../components/dashbroad/Navigator";
 import { Managers } from "../apis/Managers";
 import { useNavigate } from "react-router-dom";
 
-const HotelList = () => {
+const ProductsList = () => {
   const [dataHotels, setdataHotels] = useState([]);
   const navigate = useNavigate();
   const styleTable: string = "2rem";
@@ -14,8 +14,8 @@ const HotelList = () => {
   const titleHead = ["ID", "Name", "Type", "Title", "City", "Action", "Edit"];
   useEffect(() => {
     Managers()
-      .getHotelsList()
-      .then((res) => setdataHotels(res.ListHotel))
+      .getProductsList()
+      .then((res) => setdataHotels(res.product))
       .catch((err) => console.error(err));
   }, []);
 
@@ -25,7 +25,7 @@ const HotelList = () => {
       <main className="main__dashbroad">
         <article>
           <div className="headerHotel__list">
-            <h2 style={{ color: "rgb(141, 141, 141)" }}>Hotels List</h2>
+            <h2 style={{ color: "rgb(141, 141, 141)" }}>Products List</h2>
             <button
               id="btn-newHotel"
               style={{ padding: "5px" }}
@@ -40,7 +40,7 @@ const HotelList = () => {
           products={dataHotels}
           titleHead={titleHead}
           pageTitle={"hotel List"}
-          deletedHotelAPI={Managers().deletedhotelsList}
+          deletedHotelAPI={Managers().deletedProduct}
           deletedRoomAPI={Managers().deletedroomsList}
         />
       </main>
@@ -48,4 +48,4 @@ const HotelList = () => {
   );
 };
 
-export default HotelList;
+export default ProductsList;

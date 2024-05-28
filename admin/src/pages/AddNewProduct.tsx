@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Managers } from "../apis/Managers";
 import { useLocation, useNavigate } from "react-router-dom";
 
-interface hotelDetail {
+interface productProps {
   name: String;
   type: String;
   city: String;
@@ -18,8 +18,8 @@ interface hotelDetail {
   rooms: [];
 }
 
-const AddnewHotel = () => {
-  const [updatedHotel, setUpdatedHotel] = useState<hotelDetail>({
+const AddNewProduct = () => {
+  const [updatedHotel, setUpdatedHotel] = useState<productProps>({
     name: "",
     type: "",
     city: "",
@@ -59,7 +59,7 @@ const AddnewHotel = () => {
     formData.append("Title", data.Title);
     if (location.state?.updated === "hotel") {
       return Managers()
-        .updatedhotelsList(formData, location.state.idHotel)
+        .updatedProductsList(formData, location.state.idHotel)
         .then((res) => {
           alert(res.message);
         })
@@ -70,7 +70,7 @@ const AddnewHotel = () => {
         });
     }
     Managers()
-      .postNewhotels(formData)
+      .postNewProduct(formData)
       .then((res) => {
         alert(res.message);
       })
@@ -83,7 +83,7 @@ const AddnewHotel = () => {
   useEffect(() => {
     if (location.state?.updated === "hotel") {
       Managers()
-        .getDetailHotelsList(location.state.idHotel)
+        .getDetailProduct(location.state.idHotel)
         .then((res) => {
           console.log(res);
           setUpdatedHotel(res.hotelDetail);
@@ -221,4 +221,4 @@ const AddnewHotel = () => {
   );
 };
 
-export default AddnewHotel;
+export default AddNewProduct;

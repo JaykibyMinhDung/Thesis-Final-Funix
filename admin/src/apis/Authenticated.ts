@@ -5,7 +5,7 @@ import { instanceAxios } from "../config/axios";
 export const fetchAuthenticated = () => {
   // Ghi các api và các tham số truyền vào đây
   async function postLogin(request: any) {
-    const { data } = await instanceAxios.post("login", request);
+    const { data } = await instanceAxios.post("admin/login", request);
     return data;
   }
   return {

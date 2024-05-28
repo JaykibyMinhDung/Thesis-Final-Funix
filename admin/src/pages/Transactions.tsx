@@ -38,7 +38,7 @@ const Transaction = () => {
           titleHead={titleHead}
           pageTitle={"transaction List"}
           deletedRoomAPI={Managers().deletedroomsList}
-          deletedHotelAPI={Managers().deletedhotelsList}
+          deletedHotelAPI={Managers().deletedProduct}
         />
       </main>
     </>

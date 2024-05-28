@@ -7,8 +7,8 @@ interface Props {
   style: string;
   titleHead: Array<String>;
   pageTitle: string;
-  deletedRoomAPI: (id: string, hotel: string | undefined) => Promise<any>;
-  deletedHotelAPI: (id: string) => Promise<any>;
+  deletedRoomAPI?: (id: string, hotel: string | undefined) => Promise<any>;
+  deletedHotelAPI?: (id: string) => Promise<any>;
 }
 
 const Table: React.FC<Props> = ({
@@ -34,7 +34,7 @@ const Table: React.FC<Props> = ({
       "Bạn có chắc muốn xóa khách sạn không?"
     );
     if (acceptDeleted) {
-      if (hotel) {
+      if (hotel && deletedRoomAPI) {
         return deletedRoomAPI(id, hotel)
           .then((res) => alert(res.message))
           .then(() => navigate("/"))
@@ -42,7 +42,8 @@ const Table: React.FC<Props> = ({
             console.log(err);
             alert("Có lỗi xảy ra, vui lòng kiểm tra lại đường truyền kết nối");
           });
-      } else {
+      }
+      if (!hotel && deletedHotelAPI) {
         return deletedHotelAPI(id)
           .then((res) => alert(res.message))
           .then(() => navigate("/"))
@@ -95,6 +96,7 @@ const Table: React.FC<Props> = ({
     // const StyleButtonStatus: React.CSSProperties =
     //   getButtonStatusStyle(statusRoom);
     if (pageTitle === "Admin Page") {
+      console.log(titleHead);
       return (
         <tbody id="1">
           {products.map((e: any, index: number) => {
@@ -106,26 +108,16 @@ const Table: React.FC<Props> = ({
                 <td>{e._id}</td>
                 {/* <td>{}</td> */}
                 <td>{e.user}</td>
-                <td>{e.hotel}</td>
+                <td>{e.address}</td>
+                <td>{e.voucher}</td>
+                <td>{e.shipping}</td>
                 <td>
-                  {e.room.map((t: any, key: number) => (
-                    <span key={key}>{t.numberRoom}, </span>
-                  ))}
+                  {new Date(e?.createdAt).toLocaleDateString("en-GB")} -
+                  {new Date(e.deliveryDate).toLocaleDateString("en-GB")}
                 </td>
-                <td>
-                  {new Date(e.dateStart).toLocaleDateString("en-GB")} -{" "}
-                  {new Date(e.dateEnd).toLocaleDateString("en-GB")}
-                </td>
-                <td>${e.price}</td>
-                <td>{e.payment}</td>
-                <td>
-                  <input
-                    type="button"
-                    style={getButtonStatusStyle(e.status)}
-                    value={e.status}
-                    disabled
-                  />
-                </td>
+                <td>{e.methodPay}</td>
+                <td>{e.progressingDelivery}</td>
+                <td>${e.totalOrder}</td>
               </tr>
             );
           })}
@@ -234,11 +226,57 @@ const Table: React.FC<Props> = ({
                 <td>${e.price}</td>
                 <td>{e.payment}</td>
                 <td>
+                  <form id={e._id}>
+                    <input
+                      style={StyleButtonDelete}
+                      type="button"
+                      value="Delete"
+                      // onClick={() => deleteHandle(e._id, e.idHotel)}
+                    />
+                  </form>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      );
+    }
+    if (pageTitle === "User List") {
+      return (
+        <tbody id="5">
+          {products.map((e: any, index: number) => {
+            return (
+              <tr key={index}>
+                <th scope="col">
+                  <input type="checkbox" name="check" id="check" />
+                </th>
+                <td>{e._id}</td>
+                <td>{e.name}</td>
+                <td>{e.email}</td>
+                <td>{e.phone}</td>
+                <td>{e.role}</td>
+                <td>
+                  {e?.createdAt
+                    ? new Date(e?.createdAt).toLocaleDateString("en-GB") + " -"
+                    : ""}{" "}
+                  {new Date(e?.updatedAt).toLocaleDateString("en-GB")}
+                </td>
+                {/* <td>{e.payment}</td> */}
+                <td>
+                  <form id={e._id}>
+                    <input
+                      style={StyleButtonDelete}
+                      type="button"
+                      value="Delete"
+                      onClick={() => deleteHandle(e._id, e.idHotel)}
+                    />
+                  </form>
+                </td>
+                <td onClick={() => navigationFormUpdated(e._id, "room")}>
                   <input
-                    style={getButtonStatusStyle(e.status)}
+                    style={StyleButtonUpdated}
                     type="button"
-                    value={e.status}
-                    disabled
+                    value="Edit"
                   />
                 </td>
               </tr>

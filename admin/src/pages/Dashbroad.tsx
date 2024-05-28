@@ -10,25 +10,37 @@ type Props = {};
 const Dashbroad = (props: Props) => {
   // axios.get()
   const [dataTransactions, setdataTransactions] = useState([]);
+  const [dataTotalReportCard, setDataTotalReportCard] = useState([]);
   const styleTable: string = "17rem";
   const titleHead = [
-    "ID",
-    "User",
-    "Hotel",
-    "Room",
-    "Date",
-    "Price",
-    "Payment Method",
-    "Status",
+    "no",
+    "user",
+    "address",
+    "voucher",
+    "shipping",
+    "delivery-date",
+    "method payment",
+    "status",
+    "total",
   ];
   useEffect(() => {
     Managers()
       .getDashbroad()
       .then((data) => {
-        setdataTransactions(data.AllListTransaction);
+        setdataTransactions(data.transactions);
       })
       .catch((err) => console.error(err));
   }, []);
+
+  useEffect(() => {
+    Managers()
+      .getDashbroad()
+      .then((data) => {
+        setDataTotalReportCard(data.AllListTransaction);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <>
       <Navigator />
@@ -83,7 +95,7 @@ const Dashbroad = (props: Props) => {
           titleHead={titleHead}
           pageTitle="Admin Page"
           deletedRoomAPI={Managers().deletedroomsList}
-          deletedHotelAPI={Managers().deletedhotelsList}
+          deletedHotelAPI={Managers().deletedProduct}
         />
         <span style={{ marginRight: "1rem;" }}>1 - 20</span>
         <span>

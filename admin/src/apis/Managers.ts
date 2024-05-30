@@ -68,14 +68,15 @@ export const Managers = () => {
     return data;
   }
 
-  async function updatedUser() {
-    const { data } = await instanceAxios.put("room-list/new-room");
+  async function updatedUser(id: string) {
+    const { data } = await instanceAxios.put(`api/admin/user/${id}`);
     return data;
   }
 
-  // async function newUser () {
-  //   const {data } =await instanceAxios.post("")
-  // }
+  async function deletedUser(id: string) {
+    const { data } = await instanceAxios.delete(`api/admin/user/${id}`)
+    return data
+  }
 
   return {
     getDashbroad,
@@ -92,5 +93,7 @@ export const Managers = () => {
     deletedroomsList,
     optionhotelsList,
     userList,
+    updatedUser,
+    deletedUser
   };
 };

@@ -4,13 +4,16 @@ import "../components/dashbroad/dashbroad.css";
 // import data from "../json/dataDashbroad.json";
 import Navigator from "../components/dashbroad/Navigator";
 import Table from "../components/table/Table";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 const Dashbroad = (props: Props) => {
   // axios.get()
+  const navigate = useNavigate();
   const [dataTransactions, setdataTransactions] = useState([]);
   const [dataTotalReportCard, setDataTotalReportCard] = useState([]);
+  const [userList, setUserList] = useState();
   const styleTable: string = "17rem";
   const titleHead = [
     "no",
@@ -23,7 +26,12 @@ const Dashbroad = (props: Props) => {
     "status",
     "total",
   ];
+
   useEffect(() => {
+    const account = JSON.parse(localStorage.getItem("access_user")!)?.meta[0];
+    if (!account) {
+      return navigate("/login");
+    }
     Managers()
       .getDashbroad()
       .then((data) => {
@@ -41,6 +49,13 @@ const Dashbroad = (props: Props) => {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    Managers()
+      .userList()
+      .then((user) => setUserList(user))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <>
       <Navigator />
@@ -49,7 +64,8 @@ const Dashbroad = (props: Props) => {
           <div className="box__inforBroad--User">
             <div>
               <h4>USER</h4>
-              <p>20</p>
+              <p>{"userList.user.length!"}</p>
+              {/* FIXME: */}
             </div>
             <i className="fa fa-user" aria-hidden="true"></i>
           </div>

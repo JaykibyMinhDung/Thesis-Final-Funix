@@ -11,8 +11,13 @@ const Login = () => {
     fetchAuthenticated()
       .postLogin(data)
       .then((res) => {
-        localStorage.setItem("access_user", JSON.stringify(res));
-        alert("Đăng nhập thành công!");
+        if (res?.meta) {
+          localStorage.setItem("access_user", JSON.stringify(res));
+          alert(res.meta[0].message);
+        } else {
+          alert(res.message);
+          return navigate("/login");
+        }
       })
       .then(() => navigate("/"))
       .catch((err) => {

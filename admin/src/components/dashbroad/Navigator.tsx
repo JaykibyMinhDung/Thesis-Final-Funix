@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../css/sidebar.css";
 import { Link, useNavigate } from "react-router-dom";
+import { delay } from "../../App";
+import { Managers } from "../../apis/Managers";
 
 const Navigator = () => {
   const navigate = useNavigate();
+
   const logout = () => {
     localStorage.removeItem("access_user");
     navigate("/login");
+    delay(3000);
+    window.location.reload();
   };
+
   return (
     <nav className="sidebar__horizontal">
       <div className="Heading__border">
@@ -71,9 +77,9 @@ const Navigator = () => {
 	c0-0.161,0.131-0.292,0.291-0.292h33.2C83.043,112.319,83.174,112.449,83.174,112.61z"
             />
           </svg>
-          <Link to="/hotel_list">Hotel</Link>
+          <Link to="/products_list">Product</Link>
         </li>
-        <li>
+        {/* <li>
           <svg
             fill="#AA77FF"
             height="15"
@@ -104,7 +110,7 @@ const Navigator = () => {
             </g>
           </svg>
           <Link to="/room_list">Rooms</Link>
-        </li>
+        </li> */}
         <li>
           <svg
             fill="#AA77FF"
@@ -139,7 +145,7 @@ const Navigator = () => {
 	c0-0.161,0.131-0.292,0.291-0.292h33.2C83.043,112.319,83.174,112.449,83.174,112.61z"
             />
           </svg>
-          <Link to="/new_hotel">New Hotel</Link>
+          <Link to="/new_hotel">New Product</Link>
         </li>
         <li>
           <svg
@@ -171,7 +177,7 @@ const Navigator = () => {
               </g>
             </g>
           </svg>
-          <Link to="/new_room">New Room</Link>
+          <Link to="/new_room">New Category</Link>
         </li>
       </ul>
       <h4>USER</h4>

@@ -124,7 +124,7 @@ const Table: React.FC<Props> = ({
         </tbody>
       );
     }
-    if (pageTitle === "hotel List") {
+    if (pageTitle === "Product List") {
       return (
         <tbody id="2">
           {products.map((e: any, index: number) => {
@@ -135,22 +135,17 @@ const Table: React.FC<Props> = ({
                 </th>
                 <td>{e._id}</td>
                 <td>{e.name}</td>
-                <td>{e.type}</td>
-                <td>{e.title}</td>
-                <td>{e.city}</td>
+                <td>{e.category}</td>
+                <td>{e.new_price}</td>
+                <td>{e.old_price}</td>
+                <td>{e.amount}</td>
                 <td>
-                  <form
-                    id="deletedHotel=e._id"
-                    action="/hotellist/deleted/=e._id"
-                    method="post"
-                  >
-                    <input
-                      style={StyleButtonDelete}
-                      type="button"
-                      value="Delete"
-                      onClick={() => deleteHandle(e._id)}
-                    />
-                  </form>
+                  <input
+                    style={StyleButtonDelete}
+                    type="button"
+                    value="Delete"
+                    onClick={() => deleteHandle(e._id)}
+                  />
                 </td>
                 <td onClick={() => navigationFormUpdated(e._id, "hotel")}>
                   <input

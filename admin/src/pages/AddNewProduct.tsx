@@ -6,31 +6,23 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 interface productProps {
   name: String;
-  type: String;
-  city: String;
-  address: String;
-  distance: String;
-  desc: String;
-  cheapestPrice: Number;
-  title: String;
-  rating: String;
-  featured: boolean;
-  rooms: [];
+  category: String;
+  image: String;
+  new_price: number;
+  old_price: number;
+  amount: number;
+  description: String;
 }
 
 const AddNewProduct = () => {
-  const [updatedHotel, setUpdatedHotel] = useState<productProps>({
+  const [UpdatedProduct, setUpdatedProduct] = useState<productProps>({
     name: "",
-    type: "",
-    city: "",
-    address: "",
-    distance: "",
-    desc: "",
-    cheapestPrice: 0,
-    title: "",
-    rating: "",
-    featured: false,
-    rooms: [],
+    image: "",
+    category: "",
+    new_price: 0,
+    old_price: 0,
+    amount: 0,
+    description: "",
   });
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,27 +35,21 @@ const AddNewProduct = () => {
   } = useForm();
   const onSubmit = async (data: any) => {
     const formData = new FormData();
-    formData.append(
-      "image",
-      location.state?.updated === "hotel" ? null : data.Images[0]
-    );
-    formData.append("Name", data.Name);
-    formData.append("Address", data.Address);
-    formData.append("City", data.City);
-    formData.append("Price", data.Price);
-    formData.append("Description", data.Description);
-    formData.append("Distance", data.Distance);
-    formData.append("Type", data.Type);
-    formData.append("Rooms", data.Rooms);
-    formData.append("Feature", data.Feature);
-    formData.append("Title", data.Title);
-    if (location.state?.updated === "hotel") {
+    formData.append("image", data.image[0]);
+    formData.append("name", data.name);
+    formData.append("category", data.category);
+    // formData.append("image", data.image);
+    formData.append("new_price", data.new_price);
+    formData.append("old_price", data.old_price);
+    formData.append("description", data.description);
+    formData.append("amount", data.amount);
+    if (location.state?.updated === "product") {
       return Managers()
-        .updatedProductsList(formData, location.state.idHotel)
+        .updatedProductsList(formData, location.state.idProduct)
         .then((res) => {
           alert(res.message);
         })
-        .then(() => navigate("/hotel_list"))
+        .then(() => navigate("/products_list"))
         .catch((err) => {
           alert(err.message);
           console.error(err);
@@ -74,64 +60,54 @@ const AddNewProduct = () => {
       .then((res) => {
         alert(res.message);
       })
-      .then(() => navigate("/hotel_list"))
+      .then(() => navigate("/products_list"))
       .catch((err) => {
         alert(err.message);
         console.error(err);
       });
   };
   useEffect(() => {
-    if (location.state?.updated === "hotel") {
+    if (location.state?.updated === "product") {
       Managers()
-        .getDetailProduct(location.state.idHotel)
+        .getDetailProduct(location.state.idProduct)
         .then((res) => {
           console.log(res);
-          setUpdatedHotel(res.hotelDetail);
+          setUpdatedProduct(res.product);
         })
         .catch((err) => console.error(err));
     }
   }, [location.state?.updated]);
 
   useEffect(() => {
-    setValue("Name", updatedHotel.name, {
+    setValue("name", UpdatedProduct.name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("City", updatedHotel.city, {
+    setValue("category", UpdatedProduct.category, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("Distance", updatedHotel.distance, {
+    setValue("image", UpdatedProduct.image, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("Description", updatedHotel.desc, {
+    setValue("description", UpdatedProduct.description, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("Address", updatedHotel.address, {
+    setValue("new_price", UpdatedProduct.new_price, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("Price", updatedHotel.cheapestPrice, {
+    setValue("old_price", UpdatedProduct.old_price, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    // setValue("Name", updatedHotel.photos);
-    // setValue("Name", updatedHotel.rating);
-    setValue("Title", updatedHotel.title, {
+    setValue("amount", UpdatedProduct.amount, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("Rooms", updatedHotel.rooms, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("Type", updatedHotel.type, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  }, [updatedHotel]);
+  }, [UpdatedProduct]);
 
   return (
     <>
@@ -139,7 +115,7 @@ const AddNewProduct = () => {
       <main className="main__dashbroad">
         <header className="heading">
           <h2 style={{ color: "rgb(141, 141, 141)" }}>
-            {location.state?.updated ? "Updated" : "Add New"} Hotel
+            {location.state?.updated ? "Updated" : "Add New"} Product
           </h2>
         </header>
         {/* Hiển thị lỗi sai ở đây */}
@@ -148,70 +124,60 @@ const AddNewProduct = () => {
           <form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
             <div className="form__input--flex">
               <div>
-                <label htmlFor="Name">Name</label> <br />
+                <label htmlFor="name">Name</label> <br />
+                <input type="text" {...register("name")} placeholder="hoodle" />
+                <label htmlFor="category">Category</label> <br />
                 <input
                   type="text"
-                  {...register("Name")}
-                  placeholder="My Hotel"
+                  placeholder="clother"
+                  {...register("category")}
                 />
-                <label htmlFor="City">City</label> <br />
+                <label htmlFor="description">Description</label> <br />
                 <input
                   type="text"
-                  placeholder="New York"
-                  {...register("City")}
+                  placeholder="description"
+                  id="description"
+                  {...register("description")}
                 />
-                <label htmlFor="far">Distance from city center</label> <br />
-                <input
-                  type="text"
-                  placeholder="500"
-                  {...register("Distance")}
-                />
-                <label htmlFor="Description">Description</label> <br />
-                <input
-                  type="text"
-                  placeholder="Description"
-                  id="Description"
-                  {...register("Description")}
-                />
-                {!location.state?.updated && (
-                  <>
-                    <label htmlFor="Images">Images</label> <br />
-                    <input
-                      type="file"
-                      // value="<%= updated.photos %>"
-                      placeholder="Images"
-                      {...register("Images")}
-                      multiple
-                    />
-                  </>
-                )}
+                {/* {!location.state?.updated && ( */}
+                <>
+                  <label htmlFor="image">Images</label> <br />
+                  <input
+                    type="file"
+                    // value="<%= updated.photos %>"
+                    placeholder="image"
+                    {...register("image")}
+                    multiple
+                  />
+                </>
+                {/* )} */}
               </div>
               <div>
-                <label htmlFor="Type">Type</label> <br />
-                <input type="text" placeholder="hotel" {...register("Type")} />
-                <label htmlFor="Address">Address</label> <br />
+                <label htmlFor="new_price">New_price</label> <br />
                 <input
                   type="text"
-                  placeholder="elton st, 216"
-                  {...register("Address")}
+                  placeholder="new_price"
+                  {...register("new_price")}
                 />
-                <label htmlFor="Title">Title</label> <br />
+                <label htmlFor="old_price">Old_price</label> <br />
                 <input
                   type="text"
-                  placeholder="The best hotel"
-                  {...register("Title")}
+                  placeholder="old_price"
+                  {...register("old_price")}
                 />
-                <label htmlFor="Price">Price</label> <br />
+                <label htmlFor="amount">Amount</label> <br />
+                <input type="text" placeholder="0" {...register("amount")} />
+                {/* <label htmlFor="Price">Price</label> <br />
                 <input type="text" placeholder="100" {...register("Price")} />
                 <label htmlFor="Feature">Feature</label> <br />
                 <select {...register("Feature")}>
                   <option value="yes">yes</option>
                   <option value="no">no</option>
-                </select>
+                </select> */}
               </div>
             </div>
-            <label htmlFor="Rooms">Rooms</label>
-            <textarea {...register("Rooms")} cols={30} rows={5}></textarea>
+            {/* <label htmlFor="Rooms">Rooms</label>
+            <textarea {...register("Rooms")} cols={30} rows={5}></textarea> */}
             <br />
             <button type="submit">Send</button>
           </form>

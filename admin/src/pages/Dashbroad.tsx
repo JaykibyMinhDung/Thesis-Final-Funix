@@ -110,8 +110,6 @@ const Dashbroad = (props: Props) => {
           products={dataTransactions}
           titleHead={titleHead}
           pageTitle="Admin Page"
-          deletedRoomAPI={Managers().deletedroomsList}
-          deletedHotelAPI={Managers().deletedProduct}
         />
         <span style={{ marginRight: "1rem;" }}>1 - 20</span>
         <span>

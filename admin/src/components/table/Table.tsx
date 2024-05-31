@@ -7,8 +7,8 @@ interface Props {
   style: string;
   titleHead: Array<String>;
   pageTitle: string;
-  deletedRoomAPI?: (id: string, hotel: string | undefined) => Promise<any>;
-  deletedHotelAPI?: (id: string) => Promise<any>;
+  deletedUserHandle?: (id: string, hotel: string | undefined) => Promise<any>;
+  deletedProductAPI?: (id: string) => Promise<any>;
 }
 
 const Table: React.FC<Props> = ({
@@ -16,26 +16,26 @@ const Table: React.FC<Props> = ({
   titleHead,
   style,
   pageTitle,
-  deletedRoomAPI,
-  deletedHotelAPI,
+  deletedUserHandle,
+  deletedProductAPI,
 }) => {
   const navigate = useNavigate();
   const navigationFormUpdated = async (id: any, flag: string) => {
-    if (flag === "hotel") {
-      return navigate("/new_hotel", {
-        state: { updated: "hotel", idHotel: id },
+    if (flag === "product") {
+      return navigate("/new_product", {
+        state: { updated: "product", idProduct: id },
       });
     } else {
-      return navigate("/new_room", { state: { updated: "room", idRoom: id } });
+      return navigate("/updated_user", {
+        state: { updated: "user", idUser: id },
+      });
     }
   };
-  const deleteHandle = async (id: string, hotel?: string) => {
-    const acceptDeleted = window.confirm(
-      "Bạn có chắc muốn xóa khách sạn không?"
-    );
+  const deleteHandle = async (id: string, product?: string) => {
+    const acceptDeleted = window.confirm("Do you want to deleted product?");
     if (acceptDeleted) {
-      if (hotel && deletedRoomAPI) {
-        return deletedRoomAPI(id, hotel)
+      if (product && deletedUserHandle) {
+        return deletedUserHandle(id, product)
           .then((res) => alert(res.message))
           .then(() => navigate("/"))
           .catch((err) => {
@@ -43,8 +43,8 @@ const Table: React.FC<Props> = ({
             alert("Có lỗi xảy ra, vui lòng kiểm tra lại đường truyền kết nối");
           });
       }
-      if (!hotel && deletedHotelAPI) {
-        return deletedHotelAPI(id)
+      if (!product && deletedProductAPI) {
+        return deletedProductAPI(id)
           .then((res) => alert(res.message))
           .then(() => navigate("/"))
           .catch((err) => {
@@ -147,7 +147,7 @@ const Table: React.FC<Props> = ({
                     onClick={() => deleteHandle(e._id)}
                   />
                 </td>
-                <td onClick={() => navigationFormUpdated(e._id, "hotel")}>
+                <td onClick={() => navigationFormUpdated(e._id, "product")}>
                   <input
                     style={StyleButtonUpdated}
                     type="button"
@@ -250,6 +250,7 @@ const Table: React.FC<Props> = ({
                 <td>{e.email}</td>
                 <td>{e.phone}</td>
                 <td>{e.role}</td>
+                <td>******</td>
                 <td>
                   {e?.createdAt
                     ? new Date(e?.createdAt).toLocaleDateString("en-GB") + " -"
@@ -263,11 +264,11 @@ const Table: React.FC<Props> = ({
                       style={StyleButtonDelete}
                       type="button"
                       value="Delete"
-                      onClick={() => deleteHandle(e._id, e.idHotel)}
+                      onClick={() => deleteHandle(e._id, e.idUser)}
                     />
                   </form>
                 </td>
-                <td onClick={() => navigationFormUpdated(e._id, "room")}>
+                <td onClick={() => navigationFormUpdated(e._id, "user")}>
                   <input
                     style={StyleButtonUpdated}
                     type="button"

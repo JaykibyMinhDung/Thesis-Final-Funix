@@ -145,9 +145,9 @@ const Navigator = () => {
 	c0-0.161,0.131-0.292,0.291-0.292h33.2C83.043,112.319,83.174,112.449,83.174,112.61z"
             />
           </svg>
-          <Link to="/new_hotel">New Product</Link>
+          <Link to="/new_product">New Product</Link>
         </li>
-        <li>
+        {/* <li>
           <svg
             fill="#AA77FF"
             height="15"
@@ -177,8 +177,8 @@ const Navigator = () => {
               </g>
             </g>
           </svg>
-          <Link to="/new_room">New Category</Link>
-        </li>
+          <Link to="/new_category">New Category</Link>
+        </li> */}
       </ul>
       <h4>USER</h4>
       <ul>

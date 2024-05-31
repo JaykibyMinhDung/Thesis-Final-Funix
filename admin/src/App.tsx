@@ -9,8 +9,8 @@ import {
 import Dashbroad from "./pages/Dashbroad";
 import Transaction from "./pages/Transactions";
 import Login from "./pages/Login";
-import RoomsList from "./pages/RoomsList";
-import AddnewRoom from "./pages/AddnewRoom";
+// import RoomsList from "./pages/RoomsList";
+import AddnewRoom from "./pages/UpdatedUser";
 import AddNewProduct from "./pages/AddNewProduct";
 import ProductsList from "./pages/ProductsList";
 import UserList from "./pages/User";
@@ -70,10 +70,10 @@ const App: React.FunctionComponent<IAppProps> = () => {
           <Route>
             {/* <Route index element={} /> */}
             <Route path="/transaction" element={<Transaction />} />
-            <Route path="/room_list" element={<RoomsList />} />
+            {/* <Route path="/room_list" element={<RoomsList />} /> */}
             <Route path="/products_list" element={<ProductsList />} />
-            <Route path="/new_room" element={<AddnewRoom />} />
-            <Route path="/new_hotel" element={<AddNewProduct />} />
+            <Route path="/updated_user" element={<AddnewRoom />} />
+            <Route path="/new_product" element={<AddNewProduct />} />
             <Route path="/user" element={<UserList />} />
             <Route path="/" element={<Dashbroad />} />
             <Route path="*" element={<NotAuthentication />} />

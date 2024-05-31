@@ -14,6 +14,7 @@ const Login = () => {
         if (res?.meta) {
           localStorage.setItem("access_user", JSON.stringify(res));
           alert(res.meta[0].message);
+          window.location.reload();
         } else {
           alert(res.message);
           return navigate("/login");

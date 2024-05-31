@@ -37,8 +37,6 @@ const Transaction = () => {
           style={styleTable}
           titleHead={titleHead}
           pageTitle={"transaction List"}
-          deletedRoomAPI={Managers().deletedroomsList}
-          deletedHotelAPI={Managers().deletedProduct}
         />
       </main>
     </>

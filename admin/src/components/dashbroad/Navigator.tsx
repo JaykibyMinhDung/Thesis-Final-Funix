@@ -147,7 +147,7 @@ const Navigator = () => {
           </svg>
           <Link to="/new_product">New Product</Link>
         </li>
-        {/* <li>
+        <li>
           <svg
             fill="#AA77FF"
             height="15"
@@ -177,8 +177,8 @@ const Navigator = () => {
               </g>
             </g>
           </svg>
-          <Link to="/new_category">New Category</Link>
-        </li> */}
+          <Link to="/new_user">New User</Link>
+        </li>
       </ul>
       <h4>USER</h4>
       <ul>

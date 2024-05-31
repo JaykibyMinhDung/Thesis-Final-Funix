@@ -10,7 +10,7 @@ import Dashbroad from "./pages/Dashbroad";
 import Transaction from "./pages/Transactions";
 import Login from "./pages/Login";
 // import RoomsList from "./pages/RoomsList";
-import AddnewRoom from "./pages/UpdatedUser";
+import AddnewRoom from "./pages/AddNewUser";
 import AddNewProduct from "./pages/AddNewProduct";
 import ProductsList from "./pages/ProductsList";
 import UserList from "./pages/User";
@@ -73,6 +73,7 @@ const App: React.FunctionComponent<IAppProps> = () => {
             {/* <Route path="/room_list" element={<RoomsList />} /> */}
             <Route path="/products_list" element={<ProductsList />} />
             <Route path="/updated_user" element={<AddnewRoom />} />
+            <Route path="/new_user" element={<AddnewRoom />} />
             <Route path="/new_product" element={<AddNewProduct />} />
             <Route path="/user" element={<UserList />} />
             <Route path="/" element={<Dashbroad />} />

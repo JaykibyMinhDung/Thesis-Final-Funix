@@ -33,8 +33,13 @@ export const Managers = () => {
     const { data } = await instanceAxios.delete(`api/admin/product/${id}`);
     return data;
   }
-  async function userList() {
-    const { data } = await instanceAxios.get("api/admin/user");
+  async function userList(page: number, search?: string) {
+    const { data } = await instanceAxios.get(`api/admin/user?page=${page}${search && ('&search=' + search)}`);
+    return data;
+  }
+
+  async function addUser(params: any) {
+    const { data } = await instanceAxios.post(`api/admin/user`, { ...params });
     return data;
   }
 
@@ -56,6 +61,7 @@ export const Managers = () => {
     getDashbroad,
     getTransactions,
     // getRoomsList,
+    addUser,
     getProductsList,
     getDetailProduct,
     getDetailUser,

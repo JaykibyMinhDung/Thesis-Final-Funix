@@ -51,7 +51,7 @@ const Dashbroad = (props: Props) => {
 
   useEffect(() => {
     Managers()
-      .userList()
+      .userList(1)
       .then((user) => setUserList(user))
       .catch((err) => console.error(err));
   }, []);

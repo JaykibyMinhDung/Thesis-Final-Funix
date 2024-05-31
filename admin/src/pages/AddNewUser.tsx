@@ -5,20 +5,22 @@ import { useForm } from "react-hook-form";
 import { Managers } from "../apis/Managers";
 import { useLocation, useNavigate } from "react-router-dom";
 
-interface roomDetail {
+interface userProps {
   name: String;
   email: string;
   phone: String;
   role: String;
+  password: String;
 }
 
 const UpdatedUser = () => {
   // const [defaultHotels, setDefaultHotels] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState<roomDetail>({
+  const [updatedUser, setUpdatedUser] = useState<userProps>({
     name: "",
     email: "",
     phone: "",
     role: "",
+    password: "",
   });
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +37,7 @@ const UpdatedUser = () => {
     formData.append("email", data.email);
     formData.append("phone", data.phone);
     formData.append("role", data.role);
-    // formData.append("roomNumbers", data.roomNumbers);
+    formData.append("password", data.password);
     // formData.append("hotel", data.hotel);
     if (location.state?.updated === "user") {
       Managers()
@@ -48,16 +50,16 @@ const UpdatedUser = () => {
           alert(err.message);
         });
     }
-    // Managers()
-    //   .postNewrooms(formData)
-    //   .then((res) => {
-    //     alert(res.message);
-    //   })
-    //   .then(() => navigate("/room_list"))
-    //   .catch((err) => {
-    //     console.error(err);
-    //     alert(err.message);
-    //   });
+    Managers()
+      .addUser(formData)
+      .then((res) => {
+        alert(res.message);
+      })
+      .then(() => navigate("/user_list"))
+      .catch((err) => {
+        console.error(err);
+        alert(err.message);
+      });
   };
   useEffect(() => {
     if (location.state?.updated === "user") {
@@ -95,11 +97,10 @@ const UpdatedUser = () => {
       <Navigator />
       <main className="main__dashbroad">
         <header className="heading">
-          <h2 style={{ color: "rgb(141, 141, 141)" }}>Updated User</h2>
+          <h2 style={{ color: "rgb(141, 141, 141)" }}>
+            {location.state?.updated === "user" ? "Update" : "Add"} User
+          </h2>
         </header>
-        <div>
-          <h2 style={{ color: "rgb(255, 0, 0)", textAlign: "center" }}></h2>
-        </div>
         <article className="form__input">
           <form method="post" onSubmit={handleSubmit(onSubmit)}>
             <div className="form__input--flex">
@@ -117,21 +118,30 @@ const UpdatedUser = () => {
                 <label htmlFor="phone">phone</label> <br />
                 <input
                   type="text"
-                  placeholder="+23249012423"
+                  placeholder="+83249012423"
                   {...register("phone")}
                 />
-                {/* <label htmlFor="numberPeople">Max People</label> <br />
-                <input
-                  type="text"
-                  placeholder="2"
-                  {...register("numberPeople")}
-                /> */}
+                {!updatedUser.role && (
+                  <>
+                    <label htmlFor="numberPeople">Password</label> <br />
+                    <input
+                      type="password"
+                      placeholder="******"
+                      {...register("password")}
+                    />
+                  </>
+                )}
               </div>
             </div>
             <div className="foot__newrooms">
               <div>
                 <label htmlFor="role">Role</label> <br />
-                <input type="text" placeholder="admin" {...register("role")} />
+                <input
+                  disabled={updatedUser.role === "2"}
+                  type="text"
+                  placeholder="admin"
+                  {...register("role")}
+                />
               </div>
               {/* <div className="foot__newrooms--align">
                 <label htmlFor="hotel">Choose a hotel</label>

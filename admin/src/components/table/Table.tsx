@@ -86,6 +86,13 @@ const Table: React.FC<Props> = ({
       padding: "5px",
       borderRadius: "5px",
     };
+    const StyleButtonReseted: Style = {
+      backgroundColor: "rgb(0, 255, 55)",
+      color: "white",
+      border: "0px",
+      padding: "5px",
+      borderRadius: "5px",
+    };
     const getButtonStatusStyle = (statusRoom: string): CSSProperties => {
       return statusRoom === "Booked"
         ? { backgroundColor: "red", color: "white" }
@@ -148,43 +155,6 @@ const Table: React.FC<Props> = ({
                   />
                 </td>
                 <td onClick={() => navigationFormUpdated(e._id, "product")}>
-                  <input
-                    style={StyleButtonUpdated}
-                    type="button"
-                    value="Edit"
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      );
-    }
-    if (pageTitle === "rooms List") {
-      return (
-        <tbody id="3">
-          {products.map((e: any, index: number) => {
-            return (
-              <tr key={index}>
-                <th scope="col">
-                  <input type="checkbox" name="check" id="check" />
-                </th>
-                <td>{e._id} </td>
-                <td>{e.title} </td>
-                <td>{e.desc} </td>
-                <td>{e.price} </td>
-                <td>{e.maxPeople}</td>
-                <td>
-                  <form id={e._id}>
-                    <input
-                      style={StyleButtonDelete}
-                      type="button"
-                      value="Delete"
-                      onClick={() => deleteHandle(e._id, e.idHotel)}
-                    />
-                  </form>
-                </td>
-                <td onClick={() => navigationFormUpdated(e._id, "room")}>
                   <input
                     style={StyleButtonUpdated}
                     type="button"
@@ -273,6 +243,13 @@ const Table: React.FC<Props> = ({
                     style={StyleButtonUpdated}
                     type="button"
                     value="Edit"
+                  />
+                </td>
+                <td onClick={() => navigationFormUpdated(e._id, "user")}>
+                  <input
+                    style={StyleButtonReseted}
+                    type="button"
+                    value="Reset"
                   />
                 </td>
               </tr>

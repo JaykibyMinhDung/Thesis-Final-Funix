@@ -8,8 +8,9 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 const UserList = () => {
   const [dataUser, setdataUser] = useState([]);
   const [filterUser, setFilterUser] = useState("");
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [Total, setTotal] = useState(0);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const styleTable: string = "2rem";
   const navigationUpdatedHandle = () => {
@@ -25,13 +26,17 @@ const UserList = () => {
     "StartAt",
     "Deleted",
     "Updated",
+    "Reset",
   ];
   useEffect(() => {
     Managers()
-      .userList()
-      .then((res) => setdataUser(res.user))
+      .userList(page, search)
+      .then((res) => {
+        setdataUser(res.user);
+        setTotal(res.total);
+      })
       .catch((err) => console.error(err));
-  }, []);
+  }, [page, search]);
 
   return (
     <>
@@ -45,8 +50,15 @@ const UserList = () => {
                 Add New
               </button>
               <span>
-                <input type="text" name="search" id="" />
-                <button>Ssearch</button>
+                <input
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                  type="text"
+                  name="search"
+                  placeholder="name, phone, email"
+                  id=""
+                />
+                <button>Search</button>
               </span>
               <select
                 value={filterUser}
